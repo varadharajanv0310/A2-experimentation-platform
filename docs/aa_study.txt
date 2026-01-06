@@ -1,0 +1,41 @@
+A/A FALSE-POSITIVE STUDY (1000 sims, continuous peeking)
+============================================================
+nominal alpha                         : 0.05
+mSPRT (always-valid) FPR              : 0.0260
+  -> gate requires <= alpha + 0.02 = 0.07: PASS
+naive fixed-horizon t-test, peeked    : 0.3270
+  -> demonstrates peeking inflates FPR far above alpha
+
+SAMPLE CONFIDENCE SEQUENCE — A/A (true effect 0), should keep 0 inside:
+  n=   50  effect=-0.113  CI=[-0.640,+0.413]  0 in CI
+  n=  200  effect=+0.110  CI=[-0.182,+0.402]  0 in CI
+  n=  350  effect=+0.098  CI=[-0.141,+0.337]  0 in CI
+  n=  500  effect=+0.088  CI=[-0.118,+0.294]  0 in CI
+  n=  650  effect=+0.011  CI=[-0.174,+0.196]  0 in CI
+  n=  800  effect=-0.002  CI=[-0.172,+0.168]  0 in CI
+  n=  950  effect=+0.023  CI=[-0.134,+0.180]  0 in CI
+  n= 1100  effect=+0.003  CI=[-0.143,+0.150]  0 in CI
+  n= 1250  effect=+0.020  CI=[-0.117,+0.158]  0 in CI
+  n= 1400  effect=+0.030  CI=[-0.099,+0.160]  0 in CI
+  n= 1550  effect=-0.002  CI=[-0.126,+0.122]  0 in CI
+  n= 1700  effect=-0.001  CI=[-0.120,+0.118]  0 in CI
+  n= 1850  effect=+0.001  CI=[-0.113,+0.116]  0 in CI
+  n= 2000  effect=+0.010  CI=[-0.101,+0.121]  0 in CI
+
+SAMPLE CONFIDENCE SEQUENCE — A/B (true effect 0.30), should exclude 0:
+  n=   50  effect=+0.040  CI=[-0.541,+0.621]  0 in CI
+  n=  200  effect=+0.125  CI=[-0.195,+0.445]  0 in CI
+  n=  350  effect=+0.211  CI=[-0.034,+0.456]  0 in CI
+  n=  500  effect=+0.253  CI=[+0.042,+0.465]  0 EXCLUDED <-- stop
+  n=  650  effect=+0.238  CI=[+0.052,+0.424]  0 EXCLUDED <-- stop
+  n=  800  effect=+0.270  CI=[+0.099,+0.440]  0 EXCLUDED <-- stop
+  n=  950  effect=+0.317  CI=[+0.161,+0.472]  0 EXCLUDED <-- stop
+  n= 1100  effect=+0.312  CI=[+0.166,+0.458]  0 EXCLUDED <-- stop
+  n= 1250  effect=+0.320  CI=[+0.183,+0.456]  0 EXCLUDED <-- stop
+  n= 1400  effect=+0.335  CI=[+0.204,+0.466]  0 EXCLUDED <-- stop
+  n= 1550  effect=+0.330  CI=[+0.205,+0.454]  0 EXCLUDED <-- stop
+  n= 1700  effect=+0.331  CI=[+0.211,+0.451]  0 EXCLUDED <-- stop
+  n= 1850  effect=+0.326  CI=[+0.211,+0.441]  0 EXCLUDED <-- stop
+  n= 2000  effect=+0.313  CI=[+0.202,+0.424]  0 EXCLUDED <-- stop
+
+A/B first excluded 0 near n=500
