@@ -10,7 +10,11 @@ from sqlalchemy.orm import Session
 
 from .db import SessionLocal, engine, get_session
 from .models import Base, Event, Experiment
-from .services.metrics_engine import compute_results, ensure_assignment
+from .services.metrics_engine import (
+    compute_results,
+    confidence_sequence,
+    ensure_assignment,
+)
 
 
 @asynccontextmanager
@@ -151,3 +155,14 @@ def results(
 ):
     exp = _get_exp(db, key)
     return compute_results(db, exp, metric=metric, use_cuped=cuped)
+
+
+@app.get("/api/experiments/{key}/sequence")
+def sequence(
+    key: str,
+    metric: str | None = None,
+    step: int = 50,
+    db: Session = Depends(get_session),
+):
+    exp = _get_exp(db, key)
+    return confidence_sequence(db, exp, metric=metric, step=step)

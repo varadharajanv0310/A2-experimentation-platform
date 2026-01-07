@@ -121,6 +121,43 @@ def compute_results(
     }
 
 
+def confidence_sequence(
+    db: Session, exp: Experiment, metric: str | None = None, step: int = 50
+) -> list[dict]:
+    """Walk events in arrival order and emit the confidence sequence over time,
+    so the console can chart legitimate peeking (the CI tightens; a real effect
+    excludes 0 and stays excluded)."""
+    metric = metric or exp.primary_metric
+    control_name, treatment_name = exp.variants[0], exp.variants[1]
+    rows = db.execute(
+        select(Event.variant, Event.value)
+        .where(Event.experiment_id == exp.id, Event.metric == metric)
+        .order_by(Event.id)
+    ).all()
+
+    test = SequentialTest(alpha=exp.alpha, tau2=exp.tau2)
+    c, t = ArmStats(), ArmStats()
+    points: list[dict] = []
+    for i, (variant, value) in enumerate(rows):
+        if variant == control_name:
+            c.update(value)
+        elif variant == treatment_name:
+            t.update(value)
+        if (i + 1) % step == 0 and c.n > 2 and t.n > 2:
+            res = test.evaluate(c, t)
+            points.append(
+                {
+                    "n": i + 1,
+                    "effect": res.effect,
+                    "ci_lower": res.ci_lower,
+                    "ci_upper": res.ci_upper,
+                    "significant": res.significant,
+                    "p_value": res.p_value,
+                }
+            )
+    return points
+
+
 def ensure_assignment(db: Session, exp: Experiment, unit_id: str, segment: str = "all") -> str | None:
     existing = db.execute(
         select(Assignment).where(
