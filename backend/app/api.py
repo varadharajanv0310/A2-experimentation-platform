@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .db import SessionLocal, engine, get_session
+from .db import engine, get_session
 from .models import Base, Event, Experiment
 from .services.metrics_engine import (
     compute_results,

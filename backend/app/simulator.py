@@ -5,7 +5,6 @@ with an optional true treatment effect and a correlated pre-period covariate
 from __future__ import annotations
 
 import numpy as np
-
 from sqlalchemy.orm import Session
 
 from .models import Event, Experiment
@@ -23,7 +22,7 @@ def simulate_traffic(
     start_unit: int = 0,
 ) -> dict:
     rng = np.random.default_rng(seed)
-    control_name, treatment_name = exp.variants[0], exp.variants[1]
+    treatment_name = exp.variants[1]
     ingested = 0
     guardrail_effect = guardrail_effect or {}
 
