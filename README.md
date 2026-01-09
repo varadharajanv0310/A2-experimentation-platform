@@ -91,3 +91,25 @@ Live end-to-end check: `make verify` (8/8 against a running API + seeded DB).
 guardrails, α, τ², status) · `assignments` (experiment_key, unit_id, variant,
 segment) · `events` (experiment_id, unit_id, variant, segment, metric, value,
 covariate, ts).
+
+## Project structure
+
+```
+A2-experimentation-platform/
+├── backend/app/stats/    # sequential (mSPRT), cuped, assignment, srm, guardrails
+├── backend/app/          # api.py (FastAPI), simulator.py, models.py (SQLAlchemy)
+├── backend/scripts/      # aa_experiment (1000-sim study) + verify
+├── backend/tests/        # A/A false-positive gate, power, CUPED, assignment/SRM
+├── frontend/             # React console (confidence-sequence chart, CUPED toggle)
+└── docs/aa_study.txt     # documented A/A false-positive artifact
+```
+
+## Screenshots
+
+> _Placeholder — confidence-sequence chart with CUPED toggle; the A/A study plot._ `docs/console.png`
+
+## Roadmap / future improvements
+
+- Exact Bernoulli mSPRT for proportion metrics (currently normal approximation)
+- SRM auto-remediation + multiple-testing correction across metrics
+- Bayesian shrinkage on segment slices; a create-experiment UI form
