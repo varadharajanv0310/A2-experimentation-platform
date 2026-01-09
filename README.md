@@ -1,4 +1,4 @@
-# A2 — Experimentation Platform
+# A2 — ExpPlatform
 
 An A/B testing engine with **always-valid sequential testing** (legitimate early
 stopping / continuous peeking), **CUPED** variance reduction, guardrail
@@ -95,7 +95,7 @@ covariate, ts).
 ## Project structure
 
 ```
-A2-experimentation-platform/
+ExpPlatform/
 ├── backend/app/stats/    # sequential (mSPRT), cuped, assignment, srm, guardrails
 ├── backend/app/          # api.py (FastAPI), simulator.py, models.py (SQLAlchemy)
 ├── backend/scripts/      # aa_experiment (1000-sim study) + verify
